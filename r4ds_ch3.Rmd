@@ -11,5 +11,26 @@ I will be working with "gapminder" dataset, which features country, continent, y
 library(tidyverse); library(gapminder)
 
 view(gapminder)
+gapminder 
+?gapminder
+```
+
+## Row work
+"filter" if you want specific rows based on column rules
+```{r}
+gapminder |> 
+  filter(year > 1990)
+
+gapminder |> 
+  filter(continent == "Asia" | continent == "Europe")
+
+# combines | and & functions
+gapminder |> 
+  filter(country %in% c("Afghanistan","Albania"))
+
+# dplyr functions never modify their inputs
+new <- gapminder |> 
+  filter(year == 2007)
+view(new)
 ```
 
