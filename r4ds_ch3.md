@@ -179,3 +179,94 @@ gapminder |>
     ## 3 Europe      360
     ## 4 Americas    300
     ## 5 Oceania      24
+
+## Columns
+
+“mutate” adds columns based on existing ones
+
+``` r
+gapminder |> 
+  mutate(pop_mil = pop / 1e6,
+         .after = "pop"
+         )
+```
+
+    ## # A tibble: 1,704 × 7
+    ##    country     continent  year lifeExp      pop pop_mil gdpPercap
+    ##    <fct>       <fct>     <int>   <dbl>    <int>   <dbl>     <dbl>
+    ##  1 Afghanistan Asia       1952    28.8  8425333    8.43      779.
+    ##  2 Afghanistan Asia       1957    30.3  9240934    9.24      821.
+    ##  3 Afghanistan Asia       1962    32.0 10267083   10.3       853.
+    ##  4 Afghanistan Asia       1967    34.0 11537966   11.5       836.
+    ##  5 Afghanistan Asia       1972    36.1 13079460   13.1       740.
+    ##  6 Afghanistan Asia       1977    38.4 14880372   14.9       786.
+    ##  7 Afghanistan Asia       1982    39.9 12881816   12.9       978.
+    ##  8 Afghanistan Asia       1987    40.8 13867957   13.9       852.
+    ##  9 Afghanistan Asia       1992    41.7 16317921   16.3       649.
+    ## 10 Afghanistan Asia       1997    41.8 22227415   22.2       635.
+    ## # ℹ 1,694 more rows
+
+“select” will provide a subset of columns
+
+``` r
+gapminder |> 
+  select(!year:pop)
+```
+
+    ## # A tibble: 1,704 × 3
+    ##    country     continent gdpPercap
+    ##    <fct>       <fct>         <dbl>
+    ##  1 Afghanistan Asia           779.
+    ##  2 Afghanistan Asia           821.
+    ##  3 Afghanistan Asia           853.
+    ##  4 Afghanistan Asia           836.
+    ##  5 Afghanistan Asia           740.
+    ##  6 Afghanistan Asia           786.
+    ##  7 Afghanistan Asia           978.
+    ##  8 Afghanistan Asia           852.
+    ##  9 Afghanistan Asia           649.
+    ## 10 Afghanistan Asia           635.
+    ## # ℹ 1,694 more rows
+
+``` r
+gapminder |> 
+  mutate(pop_mil = pop / 1e6) |> 
+  select(contains("pop"))
+```
+
+    ## # A tibble: 1,704 × 2
+    ##         pop pop_mil
+    ##       <int>   <dbl>
+    ##  1  8425333    8.43
+    ##  2  9240934    9.24
+    ##  3 10267083   10.3 
+    ##  4 11537966   11.5 
+    ##  5 13079460   13.1 
+    ##  6 14880372   14.9 
+    ##  7 12881816   12.9 
+    ##  8 13867957   13.9 
+    ##  9 16317921   16.3 
+    ## 10 22227415   22.2 
+    ## # ℹ 1,694 more rows
+
+“rename” put the new name on the left
+
+``` r
+gapminder |> 
+  rename(population = pop)
+```
+
+    ## # A tibble: 1,704 × 6
+    ##    country     continent  year lifeExp population gdpPercap
+    ##    <fct>       <fct>     <int>   <dbl>      <int>     <dbl>
+    ##  1 Afghanistan Asia       1952    28.8    8425333      779.
+    ##  2 Afghanistan Asia       1957    30.3    9240934      821.
+    ##  3 Afghanistan Asia       1962    32.0   10267083      853.
+    ##  4 Afghanistan Asia       1967    34.0   11537966      836.
+    ##  5 Afghanistan Asia       1972    36.1   13079460      740.
+    ##  6 Afghanistan Asia       1977    38.4   14880372      786.
+    ##  7 Afghanistan Asia       1982    39.9   12881816      978.
+    ##  8 Afghanistan Asia       1987    40.8   13867957      852.
+    ##  9 Afghanistan Asia       1992    41.7   16317921      649.
+    ## 10 Afghanistan Asia       1997    41.8   22227415      635.
+    ## # ℹ 1,694 more rows

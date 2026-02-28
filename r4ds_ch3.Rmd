@@ -52,3 +52,26 @@ gapminder |>
   count(continent, sort = TRUE)
 ```
 
+## Columns
+"mutate" adds columns based on existing ones
+```{r}
+gapminder |> 
+  mutate(pop_mil = pop / 1e6,
+         .after = "pop"
+         )
+```
+"select" will provide a subset of columns
+```{r}
+gapminder |> 
+  select(!year:pop)
+
+gapminder |> 
+  mutate(pop_mil = pop / 1e6) |> 
+  select(contains("pop"))
+```
+"rename" put the new name on the left
+```{r}
+gapminder |> 
+  rename(population = pop)
+```
+
