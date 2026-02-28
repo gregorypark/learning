@@ -33,4 +33,22 @@ new <- gapminder |>
   filter(year == 2007)
 view(new)
 ```
+"arrange" changes the order of rows
+```{r}
+gapminder |> 
+  arrange(desc(year))
+```
+"distinct" finds unique rows
+```{r}
+gapminder |> 
+  distinct(continent)
+
+gapminder |> 
+  distinct(continent, year, .keep_all = TRUE)
+```
+And "count" will provide row counts
+```{r}
+gapminder |> 
+  count(continent, sort = TRUE)
+```
 

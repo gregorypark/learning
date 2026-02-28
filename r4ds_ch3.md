@@ -105,3 +105,77 @@ new <- gapminder |>
   filter(year == 2007)
 view(new)
 ```
+
+“arrange” changes the order of rows
+
+``` r
+gapminder |> 
+  arrange(desc(year))
+```
+
+    ## # A tibble: 1,704 × 6
+    ##    country     continent  year lifeExp       pop gdpPercap
+    ##    <fct>       <fct>     <int>   <dbl>     <int>     <dbl>
+    ##  1 Afghanistan Asia       2007    43.8  31889923      975.
+    ##  2 Albania     Europe     2007    76.4   3600523     5937.
+    ##  3 Algeria     Africa     2007    72.3  33333216     6223.
+    ##  4 Angola      Africa     2007    42.7  12420476     4797.
+    ##  5 Argentina   Americas   2007    75.3  40301927    12779.
+    ##  6 Australia   Oceania    2007    81.2  20434176    34435.
+    ##  7 Austria     Europe     2007    79.8   8199783    36126.
+    ##  8 Bahrain     Asia       2007    75.6    708573    29796.
+    ##  9 Bangladesh  Asia       2007    64.1 150448339     1391.
+    ## 10 Belgium     Europe     2007    79.4  10392226    33693.
+    ## # ℹ 1,694 more rows
+
+“distinct” finds unique rows
+
+``` r
+gapminder |> 
+  distinct(continent)
+```
+
+    ## # A tibble: 5 × 1
+    ##   continent
+    ##   <fct>    
+    ## 1 Asia     
+    ## 2 Europe   
+    ## 3 Africa   
+    ## 4 Americas 
+    ## 5 Oceania
+
+``` r
+gapminder |> 
+  distinct(continent, year, .keep_all = TRUE)
+```
+
+    ## # A tibble: 60 × 6
+    ##    country     continent  year lifeExp      pop gdpPercap
+    ##    <fct>       <fct>     <int>   <dbl>    <int>     <dbl>
+    ##  1 Afghanistan Asia       1952    28.8  8425333      779.
+    ##  2 Afghanistan Asia       1957    30.3  9240934      821.
+    ##  3 Afghanistan Asia       1962    32.0 10267083      853.
+    ##  4 Afghanistan Asia       1967    34.0 11537966      836.
+    ##  5 Afghanistan Asia       1972    36.1 13079460      740.
+    ##  6 Afghanistan Asia       1977    38.4 14880372      786.
+    ##  7 Afghanistan Asia       1982    39.9 12881816      978.
+    ##  8 Afghanistan Asia       1987    40.8 13867957      852.
+    ##  9 Afghanistan Asia       1992    41.7 16317921      649.
+    ## 10 Afghanistan Asia       1997    41.8 22227415      635.
+    ## # ℹ 50 more rows
+
+And “count” will provide row counts
+
+``` r
+gapminder |> 
+  count(continent, sort = TRUE)
+```
+
+    ## # A tibble: 5 × 2
+    ##   continent     n
+    ##   <fct>     <int>
+    ## 1 Africa      624
+    ## 2 Asia        396
+    ## 3 Europe      360
+    ## 4 Americas    300
+    ## 5 Oceania      24
