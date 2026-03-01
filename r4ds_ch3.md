@@ -249,7 +249,7 @@ gapminder |>
     ## 10 22227415   22.2 
     ## # ℹ 1,694 more rows
 
-“rename” put the new name on the left
+“rename” - make sure to put the new name on the left
 
 ``` r
 gapminder |> 
@@ -270,3 +270,93 @@ gapminder |>
     ##  9 Afghanistan Asia       1992    41.7   16317921      649.
     ## 10 Afghanistan Asia       1997    41.8   22227415      635.
     ## # ℹ 1,694 more rows
+
+“relocate”
+
+``` r
+gapminder |> 
+  relocate(pop, .before = continent)
+```
+
+    ## # A tibble: 1,704 × 6
+    ##    country          pop continent  year lifeExp gdpPercap
+    ##    <fct>          <int> <fct>     <int>   <dbl>     <dbl>
+    ##  1 Afghanistan  8425333 Asia       1952    28.8      779.
+    ##  2 Afghanistan  9240934 Asia       1957    30.3      821.
+    ##  3 Afghanistan 10267083 Asia       1962    32.0      853.
+    ##  4 Afghanistan 11537966 Asia       1967    34.0      836.
+    ##  5 Afghanistan 13079460 Asia       1972    36.1      740.
+    ##  6 Afghanistan 14880372 Asia       1977    38.4      786.
+    ##  7 Afghanistan 12881816 Asia       1982    39.9      978.
+    ##  8 Afghanistan 13867957 Asia       1987    40.8      852.
+    ##  9 Afghanistan 16317921 Asia       1992    41.7      649.
+    ## 10 Afghanistan 22227415 Asia       1997    41.8      635.
+    ## # ℹ 1,694 more rows
+
+## Groups
+
+“group_by” in conjunction with “summarise”
+
+``` r
+gapminder |> 
+  group_by(country) |> 
+  summarise(
+    avg_life = mean(lifeExp),
+    n = n()
+  ) |> 
+  arrange(desc(avg_life))
+```
+
+    ## # A tibble: 142 × 3
+    ##    country     avg_life     n
+    ##    <fct>          <dbl> <int>
+    ##  1 Iceland         76.5    12
+    ##  2 Sweden          76.2    12
+    ##  3 Norway          75.8    12
+    ##  4 Netherlands     75.6    12
+    ##  5 Switzerland     75.6    12
+    ##  6 Canada          74.9    12
+    ##  7 Japan           74.8    12
+    ##  8 Australia       74.7    12
+    ##  9 Denmark         74.4    12
+    ## 10 France          74.3    12
+    ## # ℹ 132 more rows
+
+``` r
+gapminder |> 
+  group_by(country) |> 
+  slice_max(lifeExp, n = 1)
+```
+
+    ## # A tibble: 142 × 6
+    ## # Groups:   country [142]
+    ##    country     continent  year lifeExp       pop gdpPercap
+    ##    <fct>       <fct>     <int>   <dbl>     <int>     <dbl>
+    ##  1 Afghanistan Asia       2007    43.8  31889923      975.
+    ##  2 Albania     Europe     2007    76.4   3600523     5937.
+    ##  3 Algeria     Africa     2007    72.3  33333216     6223.
+    ##  4 Angola      Africa     2007    42.7  12420476     4797.
+    ##  5 Argentina   Americas   2007    75.3  40301927    12779.
+    ##  6 Australia   Oceania    2007    81.2  20434176    34435.
+    ##  7 Austria     Europe     2007    79.8   8199783    36126.
+    ##  8 Bahrain     Asia       2007    75.6    708573    29796.
+    ##  9 Bangladesh  Asia       2007    64.1 150448339     1391.
+    ## 10 Belgium     Europe     2007    79.4  10392226    33693.
+    ## # ℹ 132 more rows
+
+there is also the .by syntax
+
+``` r
+gapminder |> 
+  summarise(mean(pop, na.rm = TRUE),
+            .by = continent) 
+```
+
+    ## # A tibble: 5 × 2
+    ##   continent `mean(pop, na.rm = TRUE)`
+    ##   <fct>                         <dbl>
+    ## 1 Asia                      77038722.
+    ## 2 Europe                    17169765.
+    ## 3 Africa                     9916003.
+    ## 4 Americas                  24504795.
+    ## 5 Oceania                    8874672.

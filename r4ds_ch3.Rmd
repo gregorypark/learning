@@ -69,9 +69,35 @@ gapminder |>
   mutate(pop_mil = pop / 1e6) |> 
   select(contains("pop"))
 ```
-"rename" put the new name on the left
+"rename" - make sure to put the new name on the left
 ```{r}
 gapminder |> 
   rename(population = pop)
 ```
+"relocate"
+```{r}
+gapminder |> 
+  relocate(pop, .before = continent)
+```
 
+## Groups
+"group_by" in conjunction with "summarise" 
+```{r}
+gapminder |> 
+  group_by(country) |> 
+  summarise(
+    avg_life = mean(lifeExp),
+    n = n()
+  ) |> 
+  arrange(desc(avg_life))
+
+gapminder |> 
+  group_by(country) |> 
+  slice_max(lifeExp, n = 1)
+```
+there is also the .by syntax
+```{r}
+gapminder |> 
+  summarise(mean(pop, na.rm = TRUE),
+            .by = continent) 
+```
