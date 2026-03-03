@@ -4,11 +4,38 @@ output: github_document
 ---
 
 ```{r, message=FALSE}
-library(tidyverse)
+library(tidyverse); library(tidyr)
 ```
 
 There are three interrelated rules that make a dataset tidy:\
   1. Each variable is a column; each column is a variable.\
   2. Each observation is a row; each row is an observation.\
   3. Each value is a cell; each cell is a single value.
+
+We may need to pivot data, with variables in columns and observations in rows.
+```{r}
+data("billboard")
+billboard
+```
+Here we have the per-week rankings in rows. Want to create a separate column for rank.
+```{r}
+new_bill <- billboard |> 
+  pivot_longer(
+    cols = starts_with("wk"),
+    names_to = "week",
+    values_to = "rank",
+    values_drop_na = TRUE # some songs didn't chart every week
+  ) |> 
+  mutate(
+    week = parse_number(week) # extracts first number from string
+  )
+new_bill
+```
+Plotting to visualize how long tracks stay on chart
+```{r}
+new_bill |> 
+  ggplot(aes(x = week, y = rank, group = track)) +
+  geom_line(alpha = .25) +
+  scale_y_reverse()
+```
 
